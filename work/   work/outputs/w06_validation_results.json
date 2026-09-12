@@ -1,1 +1,44 @@
-
+{
+  "notebook": "w06_validation_audit.ipynb",
+  "section2_split_comparison": {
+    "naive_random_split": {
+      "precision_at_20": 0.95,
+      "precision_at_50": 0.9,
+      "precision_at_100": 0.87,
+      "roc_auc": 0.698,
+      "average_precision": 0.711
+    },
+    "client_grouped_split": {
+      "precision_at_20": 0.8,
+      "precision_at_50": 0.74,
+      "precision_at_100": 0.74,
+      "roc_auc": 0.724934,
+      "average_precision": 0.591953
+    }
+  },
+  "section3_leakage_audit": {
+    "overlapping_window_features": [
+      "impressions_90d",
+      "clicks_90d",
+      "sessions_90d",
+      "log_impressions_90d",
+      "log_clicks_90d",
+      "log_sessions_90d"
+    ],
+    "with_overlap_features": {
+      "precision_at_20": 0.8,
+      "precision_at_50": 0.74,
+      "precision_at_100": 0.74,
+      "roc_auc": 0.724934,
+      "average_precision": 0.591953
+    },
+    "without_overlap_features": {
+      "precision_at_20": 0.25,
+      "precision_at_50": 0.46,
+      "precision_at_100": 0.57,
+      "roc_auc": 0.706975,
+      "average_precision": 0.566416
+    },
+    "base_rate": 0.542
+  }
+}
