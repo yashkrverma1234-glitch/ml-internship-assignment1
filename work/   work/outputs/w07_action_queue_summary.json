@@ -1,1 +1,21 @@
-
+{
+  "notebook": "w07_action_playbook.ipynb",
+  "total_pages": 30000,
+  "clients": 32,
+  "action_mix": {
+    "monitor": 11665,
+    "refresh_review": 9604,
+    "insufficient_data": 7079,
+    "refresh_priority": 1652
+  },
+  "confidence_mix": {
+    "low": 22082,
+    "medium": 5248,
+    "high": 2670
+  },
+  "no_go_excluded": 7079,
+  "thin_data_pct": 26.6,
+  "top5_client_share_of_refresh_priority_pct": 84.1,
+  "expected_precision_at_50_source": "ML-09 leakage-clean held-out audit (0.46), not Week-5's inflated in-sample-adjacent 0.74",
+  "model": "logistic_regression, leakage-clean feature set (no impressions_90d/clicks_90d/sessions_90d), refit on all 32 clients for production scoring"
+}
