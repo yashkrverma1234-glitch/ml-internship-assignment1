@@ -1,1 +1,32 @@
-
+{
+  "target": "is_declining_label",
+  "split_strategy": "client_grouped_holdout",
+  "random_state": 42,
+  "train_rows": 27675,
+  "test_rows": 2325,
+  "test_clients_held_out": 6,
+  "metrics": {
+    "baseline_rule (Week-4 CTR-gap score)": {
+      "precision_at_20": 0.8,
+      "precision_at_50": 0.72,
+      "precision_at_100": 0.67,
+      "roc_auc": 0.5432939127246057,
+      "average_precision": 0.43694379123762567
+    },
+    "logistic_regression": {
+      "precision_at_20": 0.8,
+      "precision_at_50": 0.74,
+      "precision_at_100": 0.74,
+      "roc_auc": 0.7249336515572462,
+      "average_precision": 0.5919525949522698
+    },
+    "random_forest": {
+      "precision_at_20": 0.5,
+      "precision_at_50": 0.62,
+      "precision_at_100": 0.63,
+      "roc_auc": 0.7374512875016316,
+      "average_precision": 0.5799703358212391
+    }
+  },
+  "best_model_by_precision_at_50": "logistic_regression"
+}
