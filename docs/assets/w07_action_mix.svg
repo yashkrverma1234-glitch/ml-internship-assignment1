@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="720" height="320" viewBox="0 0 720 320">
+<rect width="100%" height="100%" fill="#ffffff"/>
+<text x="360.0" y="30" text-anchor="middle" font-family="Arial" font-size="18" fill="#16232a">Action mix (after no-go filters)</text>
+<text x="180" y="88.0" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">monitor</text>
+<rect x="190" y="60.0" width="490.0" height="43.0" fill="#426B69" rx="3"/>
+<text x="688.0" y="88.0" font-family="Arial" font-size="13" fill="#27343b">11,665</text>
+<text x="180" y="142.9" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">refresh_review</text>
+<rect x="190" y="115.0" width="403.4" height="43.0" fill="#426B69" rx="3"/>
+<text x="601.4" y="142.9" font-family="Arial" font-size="13" fill="#27343b">9,604</text>
+<text x="180" y="197.9" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">insufficient_data</text>
+<rect x="190" y="170.0" width="297.4" height="43.0" fill="#426B69" rx="3"/>
+<text x="495.4" y="197.9" font-family="Arial" font-size="13" fill="#27343b">7,079</text>
+<text x="180" y="252.9" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">refresh_priority</text>
+<rect x="190" y="225.0" width="69.4" height="43.0" fill="#426B69" rx="3"/>
+<text x="267.4" y="252.9" font-family="Arial" font-size="13" fill="#27343b">1,652</text>
+</svg>
