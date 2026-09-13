@@ -1,0 +1,371 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Which page should you refresh first? — Content Refresh Priority Scoring</title>
+<style>
+  :root {
+    --ink: #16232a;
+    --sub: #4a5a63;
+    --line: #dfe6e9;
+    --accent: #426B69;
+    --accent-2: #6F4E7C;
+    --bg: #fbfbfa;
+    --card: #ffffff;
+    --warn-bg: #fff6e5;
+    --warn-line: #e8c777;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--bg);
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+    line-height: 1.6;
+  }
+  .wrap {
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 40px 20px 80px;
+  }
+  header.title-block {
+    margin-bottom: 36px;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--line);
+  }
+  h1 {
+    font-size: 1.9rem;
+    line-height: 1.25;
+    margin: 0 0 10px;
+  }
+  .meta {
+    color: var(--sub);
+    font-size: 0.92rem;
+  }
+  .meta a { color: var(--accent); }
+  h2 {
+    font-size: 1.25rem;
+    margin: 44px 0 12px;
+    padding-top: 4px;
+    color: var(--ink);
+  }
+  h2 .num { color: var(--accent); margin-right: 8px; }
+  p { margin: 0 0 14px; }
+  ul, ol { margin: 0 0 14px; padding-left: 22px; }
+  li { margin-bottom: 6px; }
+  code {
+    background: #eef1f0;
+    padding: 1px 6px;
+    border-radius: 4px;
+    font-size: 0.88em;
+  }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 18px 20px;
+    margin: 16px 0;
+  }
+  .abstract {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-left: 4px solid var(--accent);
+    border-radius: 8px;
+    padding: 20px 22px;
+  }
+  .abstract p:last-child { margin-bottom: 0; }
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    font-size: 0.9rem;
+    margin: 12px 0 8px;
+  }
+  th, td {
+    border: 1px solid var(--line);
+    padding: 8px 10px;
+    text-align: right;
+  }
+  th:first-child, td:first-child { text-align: left; }
+  thead th {
+    background: #f1f3f2;
+    font-weight: 600;
+  }
+  tbody tr:last-child td { font-weight: 600; background: #f7faf9; }
+  .caption {
+    font-size: 0.85rem;
+    color: var(--sub);
+    margin-top: 4px;
+  }
+  .callout {
+    background: var(--warn-bg);
+    border: 1px solid var(--warn-line);
+    border-radius: 8px;
+    padding: 14px 18px;
+    margin: 16px 0;
+    font-size: 0.95rem;
+  }
+  .callout strong { color: #7a5b0a; }
+  .chart-box {
+    background: var(--card);
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    padding: 10px;
+    margin: 16px 0 4px;
+  }
+  .chart-box svg { width: 100%; height: auto; display: block; }
+  .tag {
+    display: inline-block;
+    font-size: 0.75rem;
+    padding: 2px 8px;
+    border-radius: 999px;
+    background: #e7eeee;
+    color: var(--accent);
+    margin-right: 6px;
+  }
+  footer {
+    margin-top: 56px;
+    padding-top: 20px;
+    border-top: 1px solid var(--line);
+    font-size: 0.9rem;
+    color: var(--sub);
+  }
+  footer a { color: var(--accent); }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink: #eef2f2;
+      --sub: #a8b5ba;
+      --line: #33403f;
+      --bg: #14181a;
+      --card: #1b2224;
+      --warn-bg: #2a2412;
+      --warn-line: #6b5a1f;
+    }
+    thead th { background: #232b2c; }
+    tbody tr:last-child td { background: #1f2827; }
+    .tag { background: #22302f; }
+    code { background: #232b2c; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header class="title-block">
+  <div class="tag">FlyRank ML Internship — Capstone</div>
+  <h1>Which page should an editor refresh first? An honest, audited priority score</h1>
+  <div class="meta">
+    Author: Amrit &nbsp;·&nbsp; Lane: Refresh / Content Opportunity Scoring &nbsp;·&nbsp;
+    Date: September 2026<br>
+    Repo &amp; notebooks:
+    <a href="https://github.com/yashkrverma1234-glitch/ml-internship-assignment1">github.com/yashkrverma1234-glitch/ml-internship-assignment1</a>
+  </div>
+</header>
+
+<section id="abstract">
+  <h2><span class="num">0.</span>Abstract</h2>
+  <div class="abstract">
+    <p><strong>Question.</strong> Which of a client's content pages should an editor refresh
+    first, this month?</p>
+    <p><strong>Data.</strong> 30,000 pseudonymized pages across 32 clients, combining
+    Google-Search-Console-style performance, on-page signals, and behavioral analytics —
+    no client names, URLs, or raw queries.</p>
+    <p><strong>Method.</strong> A transparent rule baseline (CTR gap vs. position-tier median,
+    weighted by traffic and staleness) compared against a Logistic Regression trained on an
+    <em>observed</em> decline label, validated with a client-grouped holdout so the model is
+    judged only on clients it has never seen.</p>
+    <p><strong>Headline result.</strong> The full-feature model edges the baseline
+    (precision@50 = 0.74 vs. 0.72). Attacking our own model found that three features
+    numerically overlap the label's own time window. Removing them — the honest, shippable
+    model — drops precision@50 to <strong>0.46</strong> against a base rate of 0.542. That
+    disclosed number, not the flattering one, is what we ship.</p>
+    <p><strong>What it's for.</strong> A ranked, capped, human-reviewed action queue for
+    editors — not an autonomous refresh trigger.</p>
+  </div>
+</section>
+
+<section id="problem">
+  <h2><span class="num">1.</span>Problem framing</h2>
+  <p><strong>Decision:</strong> which pages an editor should refresh first, out of thousands,
+  given limited time. <strong>Unit of analysis:</strong> one page for one client, one snapshot
+  in time. <strong>Output:</strong> a 0–100 priority score plus a recommended action
+  (<code>refresh_priority</code> / <code>refresh_review</code> / <code>monitor</code> /
+  <code>insufficient_data</code>).</p>
+  <p><strong>Who acts on it:</strong> a content/SEO editor or team lead, working a client's
+  page list weekly.</p>
+  <p><strong>Cost of a wrong call:</strong> a false <code>refresh_priority</code> wastes editor
+  hours on a page that would have recovered anyway; a missed decline lets organic traffic keep
+  eroding, silently, for another month.</p>
+  <p><strong>Why ML, not just a rule:</strong> the rule baseline already captures the obvious
+  signal (CTR below what similarly-ranked pages get). A learned model earns its place only if
+  it beats that rule on the <em>same</em> audited split and metric — which is exactly what
+  Sections 4–5 test, including the case where it doesn't hold up.</p>
+</section>
+
+<section id="data-safety">
+  <h2><span class="num">2.</span>Data safety</h2>
+  <p>Modeling uses only the local, pre-anonymized starter file (30,000 rows, 32 pseudonymized
+  client IDs) — not the gated internal warehouse. Deliberately excluded from features:</p>
+  <ul>
+    <li><code>trend_direction</code>, <code>trend_pct</code> — these <em>define</em> the label; including them would mean the model learns the label from itself.</li>
+    <li><code>content_id</code>, <code>client_id</code> — identifiers, used only for grouping the train/test split, never as model inputs.</li>
+  </ul>
+  <p>Client and content IDs throughout this repo and page are pseudonymous placeholders from
+  the anonymized dataset — no client names, URLs, or raw search queries appear anywhere in
+  <code>work/</code> or on this page.</p>
+</section>
+
+<section id="baseline">
+  <h2><span class="num">3.</span>Baseline</h2>
+  <p>A transparent rule, <code>baseline_action_score</code>: for pages with enough traffic to
+  trust (<code>impressions_90d ≥ 500</code>) and a known ranking position, score = (tier-median
+  CTR − page CTR, floored at 0) × log(1 + impressions_90d) × a 1.15× bonus if the page hasn't
+  been touched in 180+ days. It uses no label-derived fields, so it's a fair, non-circular
+  target for the model to beat — on the same split, same metric.</p>
+</section>
+
+<section id="model">
+  <h2><span class="num">4.</span>Model / analysis</h2>
+  <p><strong>Method:</strong> Logistic Regression, compared against a Random Forest (Random
+  Forest did not win — see Section 5). <strong>Target:</strong>
+  <code>is_declining_label = (trend_direction == "down")</code>, an outcome observed in the
+  data, not a rule we defined. <strong>Features:</strong> search performance
+  (<code>ctr</code>, <code>avg_position</code>), on-page (<code>word_count</code>,
+  <code>content_age_days</code>, <code>days_since_last_update</code>), behavioral
+  (<code>engagement_rate</code>, <code>scroll_rate</code>, <code>ai_traffic_pct</code>), and
+  categorical tiers (<code>content_type</code>, <code>main_intent</code>,
+  <code>position_tier</code>, <code>freshness_tier</code>, …). <strong>Left out on purpose:</strong>
+  <code>impressions_90d</code>, <code>clicks_90d</code>, <code>sessions_90d</code> — see Section 5,
+  this is the paper's central finding, not an oversight.</p>
+</section>
+
+<section id="evaluation">
+  <h2><span class="num">5.</span>Evaluation</h2>
+  <p><strong>Split:</strong> client-grouped 80/20 (27,675 train / 2,325 test rows, 6 of 32
+  clients held out entirely) — never a random row split, because rows from the same client
+  share hidden character a random split would let the model memorize.</p>
+
+  <div class="callout">
+    <strong>Control check:</strong> re-running the same model on a naive random split kept
+    ROC-AUC almost flat (0.698 vs. 0.725 grouped) but inflated precision@20/50/100 to
+    0.95 / 0.90 / 0.87 — proof the naive split was letting the model memorize clients, concentrated
+    exactly where the product looks: the top of the ranked queue.
+  </div>
+
+  <table>
+    <thead>
+      <tr><th>Model</th><th>P@20</th><th>P@50</th><th>P@100</th><th>ROC-AUC</th><th>Avg. Precision</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>Baseline rule (CTR-gap)</td><td>0.80</td><td>0.72</td><td>0.67</td><td>0.543</td><td>0.437</td></tr>
+      <tr><td>Model, full feature set</td><td>0.80</td><td>0.74</td><td>0.74</td><td>0.725</td><td>0.592</td></tr>
+      <tr><td>Model, leakage-clean (shipped)</td><td>0.25</td><td>0.46</td><td>0.57</td><td>0.707</td><td>0.566</td></tr>
+    </tbody>
+  </table>
+  <p class="caption">Base rate (share of pages actually declining): 0.542. Same client-grouped
+  test split and metric throughout.</p>
+
+  <p><strong>The error we went looking for:</strong> <code>impressions_90d</code>,
+  <code>clicks_90d</code>, and <code>sessions_90d</code> numerically overlap
+  <code>impressions_last_30d</code> / <code>impressions_prev_30d</code> — the exact 30-day
+  sub-windows the label's own source column, <code>trend_pct</code>, is computed from. Dropping
+  them moved ROC-AUC only slightly (0.725 → 0.707) but collapsed precision@20 from 0.80 to
+  0.25 and precision@50 from 0.74 to 0.46 — a 38% drop concentrated entirely at the top of the
+  ranking, the part the product actually surfaces to editors.</p>
+</section>
+
+<section id="interpretation">
+  <h2><span class="num">6.</span>Interpretation</h2>
+  <p>The full-feature model's apparent win over the baseline (0.74 vs. 0.72) was mostly an
+  artifact of window overlap, not real signal the model discovered. Once that's removed, the
+  honest picture is: a simple CTR-gap rule and a leakage-clean model perform in the same
+  neighborhood, with the model still adding value in ranking quality (ROC-AUC 0.71 vs. the
+  baseline's 0.54) even though its precision@50 is lower than the baseline's headline number.
+  That's a legitimate, if unglamorous, finding: <strong>the obvious rule was already pretty
+  good</strong>, and the model's real contribution is a more principled ranking, not a
+  dramatically higher hit rate.</p>
+</section>
+
+<section id="recommendation">
+  <h2><span class="num">7.</span>Recommendation</h2>
+  <p>Production scoring blends the leakage-clean model with the baseline
+  (<code>0.65 × model probability + 0.35 × normalized baseline score</code>), refit on all 32
+  clients, then routed through a no-go filter for pages we don't have enough signal to score
+  responsibly.</p>
+
+  <div class="chart-box">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 720 320" role="img" aria-label="Bar chart of action mix after no-go filters: monitor 11,665; refresh_review 9,604; insufficient_data 7,079; refresh_priority 1,652">
+      <rect width="100%" height="100%" fill="none"/>
+      <text x="360" y="26" text-anchor="middle" font-family="Arial" font-size="17" fill="var(--ink)" style="fill:#16232a">Action mix (after no-go filters) — 30,000 pages</text>
+      <text x="180" y="88" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">monitor</text>
+      <rect x="190" y="60" width="490" height="43" fill="#426B69" rx="3"/>
+      <text x="688" y="88" font-family="Arial" font-size="13" fill="#27343b">11,665 (38.9%)</text>
+      <text x="180" y="142.9" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">refresh_review</text>
+      <rect x="190" y="115" width="403.4" height="43" fill="#426B69" rx="3"/>
+      <text x="601.4" y="142.9" font-family="Arial" font-size="13" fill="#27343b">9,604 (32.0%)</text>
+      <text x="180" y="197.9" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">insufficient_data</text>
+      <rect x="190" y="170" width="297.4" height="43" fill="#426B69" rx="3"/>
+      <text x="495.4" y="197.9" font-family="Arial" font-size="13" fill="#27343b">7,079 (23.6%)</text>
+      <text x="180" y="252.9" text-anchor="end" font-family="Arial" font-size="13" fill="#27343b">refresh_priority</text>
+      <rect x="190" y="225" width="69.4" height="43" fill="#6F4E7C" rx="3"/>
+      <text x="267.4" y="252.9" font-family="Arial" font-size="13" fill="#27343b">1,652 (5.5%)</text>
+    </svg>
+  </div>
+  <p class="caption">Only 5.5% of pages get flagged as top priority; 23.6% are held back as
+  insufficient-data rather than force-scored.</p>
+
+  <ol>
+    <li><strong>Ship as decision support, not automation.</strong> Route
+    <code>refresh_priority</code> pages to editors as a ranked queue; never auto-trigger a
+    refresh.</li>
+    <li><strong>Quote precision@50 = 0.46 (base rate 0.542) to stakeholders</strong> — the
+    honest, held-out, leakage-clean number, not 0.74.</li>
+    <li><strong>Review the concentrated clients first.</strong> 84.1% of
+    <code>refresh_priority</code> flags land on just 5 of 32 clients — validate the model isn't
+    overfitting to a couple of clients' quirks before wider rollout.</li>
+    <li><strong>Treat the 23.6% marked <code>insufficient_data</code> as a data problem, not a
+    scoring failure</strong> — give them time to accumulate signal.</li>
+    <li><strong>Don't claim causal impact yet.</strong> Nothing here supports "refreshing causes
+    recovery" without a controlled experiment (e.g., randomizing refresh order within the
+    <code>refresh_review</code> tier).</li>
+  </ol>
+</section>
+
+<section id="reproducibility">
+  <h2><span class="num">8.</span>Reproducibility</h2>
+  <p>Every number on this page is loaded — not retyped — from JSON receipts committed at
+  <code>work/outputs/w05_model_results.json</code>, <code>w06_validation_results.json</code>,
+  and <code>w07_action_queue_summary.json</code>, generated by the notebooks in
+  <code>work/notebooks/</code> (<code>w05_model.ipynb</code> → <code>w06_validation_audit.ipynb</code>
+  → <code>w07_action_playbook.ipynb</code> → <code>capstone.ipynb</code>, this page's source).
+  All splits use <code>random_state=42</code>. To reproduce: clone the repo, open a notebook in
+  Colab or locally, and run top to bottom against
+  <code>data/raw/content_refresh_anonymized.csv</code>.</p>
+</section>
+
+<section id="limitations">
+  <h2>Limitations</h2>
+  <ul>
+    <li>The baseline rule also uses <code>impressions_90d</code> as a volume floor and
+    multiplier — the same column implicated in the overlapping-window leak. Its 0.72
+    precision@50 should be read as an upper bound, not a re-audited clean number.</li>
+    <li>Every page is one snapshot in time, not tracked longitudinally — we can't fully separate
+    "this page is declining" from "pages like this, right now, tend to look this way."</li>
+    <li>A page's refresh history reflects an editor's past choice, not a random assignment, so
+    any refreshed-vs-not comparison is associational, never causal.</li>
+    <li>26.6% of pages have fewer than 100 impressions/90 days; their scores carry deliberately
+    low confidence.</li>
+  </ul>
+</section>
+
+<footer id="acknowledgments">
+  <h2><span class="num">9.</span>Acknowledgments &amp; data credit</h2>
+  <p>Built on the FlyRank ML Internship dataset — anonymized content-performance data provided
+  for this program. Learn more at <a href="https://flyrank.ai">flyrank.ai</a>.</p>
+  <p>Full notebooks and code:
+  <a href="https://github.com/yashkrverma1234-glitch/ml-internship-assignment1">this repo</a>.</p>
+</footer>
+
+</div>
+</body>
+</html>
